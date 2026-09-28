@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trimurti Travels | Pandharpur ⇄ Pune Daily Express & Darshan Service</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --bg-dark: #070a12;
+      --bg-card: rgba(15, 23, 42, 0.75);
+      --bg-glass: rgba(22, 30, 49, 0.7);
+      --border-gold: rgba(245, 158, 11, 0.22);
+      --gold-primary: #f59e0b;
+      --gold-light: #fcd34d;
+      --gold-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      --amber-glow: rgba(245, 158, 11, 0.35);
+      --seat-free: #1e293b;
+      --seat-selected: #f59e0b;
+      --seat-ladies: #f43f5e;
+      --seat-border: rgba(255, 255, 255, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 8%, rgba(245, 158, 11, 0.15) 0%, transparent 42%),
+        radial-gradient(circle at 90% 25%, rgba(217, 119, 6, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(180, 83, 9, 0.08) 0%, transparent 55%);
+      background-attachment: fixed;
+    }
+
+    .font-heading {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #070a12;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #f59e0b;
+    }
+
+    /* Seat Node styling */
+    .seat-node {
+      width: 46px;
+      height: 46px;
+      background: var(--seat-free);
+      border: 1px solid var(--seat-border);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      user-select: none;
+    }
+
+    .seat-node i {
+      font-size: 0.7rem;
+      margin-bottom: 2px;
+      color: #94a3b8;
+      transition: color 0.2s;
+    }
+
+    .seat-node:hover {
+      border-color: var(--gold-light);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 14px rgba(245, 158, 11, 0.2);
+    }
+
+    .seat-node.ladies {
+      border-color: rgba(244, 63, 94, 0.5);
+      background: rgba(244, 63, 94, 0.12);
+    }
+
+    .seat-node.ladies i {
+      color: var(--seat-ladies);
+    }
+
+    .seat-node.selected {
+      background: var(--gold-gradient);
+      color: #0b0f19;
+      border-color: #fde68a;
+      box-shadow: 0 0 16px var(--amber-glow);
+      font-weight: 800;
+    }
+
+    .seat-node.selected i {
+      color: #0b0f19;
+    }
+
+    .seat-node.booked {
+      opacity: 0.35;
+      cursor: not-allowed;
+      pointer-events: none;
+      background: #0f172a;
+      text-decoration: line-through;
+    }
+
+    /* Testimonial slider */
+    .testimonial-slide {
+      opacity: 0;
+      transform: translateY(12px) scale(0.97);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+    }
+
+    .testimonial-slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      position: relative;
+      pointer-events: auto;
+    }
+
+    /* Floating WhatsApp Button Pulse */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+
+    .wa-pulse {
+      animation: pulse-ring 2.4s infinite cubic-bezier(0.45, 0, 0.55, 1);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+
+  <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 text-slate-950 text-xs md:text-sm font-semibold py-2 px-4 shadow-sm">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 bg-black/20 text-white px-2.5 py-0.5 rounded-full text-xs font-bold">
+          <i class="fa-solid fa-clock"></i> OPEN 24 HOURS
+        </span>
+        <span class="flex items-center gap-1 text-slate-950 font-bold">
+          <i class="fa-brands fa-google text-slate-950"></i>
+          <span>Google Rating: 4.1</span>
+          <span class="text-amber-950 font-black">★★★★☆</span>
+          <span class="hidden sm:inline font-medium text-slate-900">(72 Verified Reviews)</span>
+        </span>
+      </div>
+
+      <div class="flex items-center gap-4 text-xs md:text-sm font-bold">
+        <a href="https://maps.google.com/?q=Trimurti+Travels+Chouphala+Pandharpur" target="_blank" class="hover:underline flex items-center gap-1">
+          <i class="fa-solid fa-location-dot"></i> Near Gajanan Maharaj Math, Chouphala
+        </a>
+        <a href="tel:09623656609" class="bg-slate-950 text-amber-400 hover:text-white px-3 py-1 rounded-full text-xs transition">
+          <i class="fa-solid fa-phone"></i> 096236 56609
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/85 border-b border-amber-500/20 px-4 md:px-10 py-3.5 flex items-center justify-between transition-all">
+    <a href="#" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 text-xl font-bold shadow-lg shadow-amber-500/25 group-hover:scale-105 transition-transform">
+        <i class="fa-solid fa-bus-simple"></i>
+      </div>
+      <div>
+        <div class="font-heading font-bold text-lg md:text-xl tracking-tight text-white flex items-center gap-1.5">
+          <span>TRIMURTI</span>
+          <span class="text-amber-400 font-extrabold">TRAVELS</span>
+        </div>
+        <p class="text-[10px] uppercase tracking-wider text-amber-300/80 font-medium">Pandharpur ⇄ Pune Express Service</p>
+      </div>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300">
+      <a href="#booking" class="hover:text-amber-400 transition-colors">Book Seat</a>
+      <a href="#schedule" class="hover:text-amber-400 transition-colors">Daily Timings</a>
+      <a href="#points" class="hover:text-amber-400 transition-colors">Stops & Route</a>
+      <a href="#reviews" class="hover:text-amber-400 transition-colors">Google Reviews</a>
+      <a href="#contact" class="hover:text-amber-400 transition-colors">Contact Us</a>
+    </nav>
+
+    <div class="flex items-center gap-2 md:gap-3">
+      <a href="tel:09623656609" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs md:text-sm font-bold border border-amber-500/40 text-amber-300 hover:bg-amber-500/10 transition">
+        <i class="fa-solid fa-phone"></i>
+        <span class="hidden sm:inline">096236 56609</span>
+      </a>
+      <a href="#booking" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-md shadow-amber-500/30 hover:brightness-110 transition active:scale-95">
+        <i class="fa-solid fa-ticket"></i>
+        <span>Book Now</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <section class="max-w-7xl mx-auto px-4 md:px-8 pt-8 pb-14 grid lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Hero Left: Details & Features -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 text-xs font-semibold tracking-wide">
+          <i class="fa-solid fa-om text-amber-400"></i>
+          <span>Vitthal Darshan Special & Daily Executive Commute</span>
+        </div>
+
+        <h1 class="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+          Pandharpur to Pune <br />
+          <span class="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">
+            Fast, Safe & Reliable
+          </span> Daily Highway Trips
+        </h1>
+
+        <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+          Welcome to <strong class="text-white">Trimurti Travels</strong> Pandharpur. Enjoy door-to-hub express transport with AC comfort, clean pushback seats, punctual departures, professional drivers, and special care for families and pilgrims.
+        </p>
+
+        <!-- Google Review Badge in Hero -->
+        <div class="p-4 rounded-2xl bg-slate-900/80 border border-amber-500/20 flex flex-wrap items-center justify-between gap-4 backdrop-blur-md">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-white text-slate-900 flex items-center justify-center text-2xl font-black shadow-inner">
+              <i class="fa-brands fa-google text-red-500"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-white font-bold text-lg">4.1</span>
+                <div class="text-amber-400 text-sm">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+              </div>
+              <p class="text-xs text-slate-400">72+ Genuine reviews from passengers</p>
+            </div>
+          </div>
+          <a href="https://maps.google.com/?q=Trimurti+Travels+Chouphala+Pandharpur" target="_blank" class="text-xs font-semibold text-amber-400 hover:text-amber-300 flex items-center gap-1 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/25">
+            <span>Read Google Reviews</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+          </a>
+        </div>
+
+        <!-- Highlights Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-2 gap-3.5 pt-2">
+          <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/30 transition">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center mb-2 text-base">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <h4 class="text-white text-sm font-bold">24-Hour Operations</h4>
+            <p class="text-xs text-slate-400">Daily multiple departure slots, day and night.</p>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/30 transition">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center mb-2 text-base">
+              <i class="fa-solid fa-snowflake"></i>
+            </div>
+            <h4 class="text-white text-sm font-bold">Air-Conditioned Express</h4>
+            <p class="text-xs text-slate-400">Comfortable recliner seating with charging slots.</p>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/30 transition">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center mb-2 text-base">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h4 class="text-white text-sm font-bold">Safe & Verified Drivers</h4>
+            <p class="text-xs text-slate-400">Experienced highway drivers ensuring safety.</p>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/30 transition">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center mb-2 text-base">
+              <i class="fa-solid fa-suitcase-rolling"></i>
+            </div>
+            <h4 class="text-white text-sm font-bold">Ample Luggage Space</h4>
+            <p class="text-xs text-slate-400">Spacious boot for pilgrims & personal luggage.</p>
+          </div>
+        </div>
+
+        <!-- Quick Direction & Location info -->
+        <div class="p-4 rounded-xl bg-gradient-to-r from-slate-900 to-slate-950 border border-slate-800 text-xs flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-map-location-dot text-amber-400 text-lg"></i>
+            <div>
+              <p class="text-white font-semibold">Trimurti Travels Office</p>
+              <p class="text-slate-400">Shivaji Maharaj Chowk, 3030/C, Chouphala, Pandharpur</p>
+            </div>
+          </div>
+          <a href="https://maps.google.com/?q=Trimurti+Travels+Chouphala+Pandharpur" target="_blank" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-lg font-bold border border-slate-700 whitespace-nowrap">
+            Directions
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6" id="booking">
+        <div class="rounded-3xl bg-slate-900/90 border border-amber-500/30 p-5 md:p-7 backdrop-blur-xl shadow-2xl shadow-black/80">
+          
+          <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div>
+              <h2 class="font-heading text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-ticket-simple text-amber-400"></i> Reserve Bus Seats
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5">Select your journey direction and seat coordinates</p>
+            </div>
+            <span class="text-xs bg-amber-500/15 text-amber-400 font-bold px-3 py-1 rounded-full border border-amber-500/30">
+              ₹450 / seat
+            </span>
+          </div>
+
+          <!-- Trip Direction Dynamic Toggle -->
+          <div class="mt-4 p-1.5 bg-slate-950 rounded-2xl border border-slate-800 flex items-center justify-between gap-1">
+            <button type="button" id="dirPndToPune" class="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-md">
+              <i class="fa-solid fa-arrow-right"></i> Pandharpur → Pune
+            </button>
+            <button type="button" id="dirPuneToPnd" class="flex-1 py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white">
+              <i class="fa-solid fa-arrow-left"></i> Pune → Pandharpur
+            </button>
+          </div>
+
+          <!-- Date & Time Slot Row -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">
+                <i class="fa-regular fa-calendar-days text-amber-400"></i> Journey Date
+              </label>
+              <input type="date" id="journeyDate" class="w-full bg-slate-950/80 border border-slate-700 focus:border-amber-400 rounded-xl px-3 py-2 text-sm text-white outline-none" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">
+                <i class="fa-solid fa-clock text-amber-400"></i> Travel Time Slot
+              </label>
+              <select id="timeSlot" class="w-full bg-slate-950/80 border border-slate-700 focus:border-amber-400 rounded-xl px-3 py-2 text-sm text-white outline-none">
+                <option value="06:00 AM (Morning Early Express)">06:00 AM (Morning Early Express)</option>
+                <option value="09:30 AM (Mid-Morning Express)">09:30 AM (Mid-Morning Express)</option>
+                <option value="01:30 PM (Afternoon Express)">01:30 PM (Afternoon Express)</option>
+                <option value="05:30 PM (Evening Regular)">05:30 PM (Evening Regular)</option>
+                <option value="10:00 PM (Night Superfast)">10:00 PM (Night Superfast)</option>
+                <option value="11:30 PM (Midnight Pilgrim Express)">11:30 PM (Midnight Pilgrim Express)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-5 p-4 bg-slate-950/90 rounded-2xl border-2 border-amber-500/25 relative">
+            <div class="text-center mb-3">
+              <div class="h-2 w-28 mx-auto border-t-2 border-l-2 border-r-2 border-amber-400/50 rounded-t-md"></div>
+              <p class="text-[10px] uppercase font-bold text-amber-400/90 tracking-widest">FRONT WINDSHIELD</p>
+            </div>
+
+            <div class="flex justify-between items-center pb-3 mb-3 border-b border-dashed border-slate-800 text-xs">
+              <div class="text-slate-400 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-dharmachakra text-amber-400 animate-spin" style="animation-duration: 12s;"></i>
+                <span>Driver Cabin</span>
+              </div>
+              <div class="text-[11px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-md font-semibold">
+                Entry Door
+              </div>
+            </div>
+
+            <!-- Seat Grid (Rows of 4 with aisle) -->
+            <div class="space-y-2.5" id="seatMatrix">
+              <!-- Row 1 -->
+              <div class="flex justify-between items-center">
+                <div class="flex gap-2">
+                  <div class="seat-node" data-seat="1W (Window)">
+                    <i class="fa-solid fa-chair"></i>1W
+                  </div>
+                  <div class="seat-node" data-seat="2A (Aisle)">
+                    <i class="fa-solid fa-chair"></i>2A
+                  </div>
+                </div>
+                <span class="text-[10px] text-slate-600 font-mono tracking-wider uppercase">ROW 1</span>
+                <div class="flex gap-2">
+                  <div class="seat-node ladies" data-seat="3A (Ladies)">
+                    <i class="fa-solid fa-person-dress"></i>3A
+                  </div>
+                  <div class="seat-node ladies" data-seat="4W (Ladies Window)">
+                    <i class="fa-solid fa-person-dress"></i>4W
+                  </div>
+                </div>
+              </div>
+
+              <!-- Row 2 -->
+              <div class="flex justify-between items-center">
+                <div class="flex gap-2">
+                  <div class="seat-node" data-seat="5W (Window)">
+                    <i class="fa-solid fa-chair"></i>5W
+                  </div>
+                  <div class="seat-node" data-seat="6A (Aisle)">
+                    <i class="fa-solid fa-chair"></i>6A
+                  </div>
+                </div>
+                <span class="text-[10px] text-slate-600 font-mono tracking-wider uppercase">ROW 2</span>
+                <div class="flex gap-2">
+                  <div class="seat-node" data-seat="7A (Aisle)">
+                    <i class="fa-solid fa-chair"></i>7A
+                  </div>
+                  <div class="seat-node" data-seat="8W (Window)">
+                    <i class="fa-solid fa-chair"></i>8W
+                  </div>
+                </div>
+              </div>
+
+              <!-- Row 3 -->
+              <div class="flex justify-between items-center">
+                <div class="flex gap-2">
+                  <div class="seat-node" data-seat="9W (Window)">
+                    <i class="fa-solid fa-chair"></i>9W
+                  </div>
+                  <div class="seat-node" data-seat="10A (Aisle)">
+                    <i class="fa-solid fa-chair"></i>10A
+                  </div>
+                </div>
+                <span class="text-[10px] text-slate-600 font-mono tracking-wider uppercase">ROW 3</span>
+                <div class="flex gap-2">
+                  <div class="seat-node" data-seat="11A (Aisle)">
+                    <i class="fa-solid fa-chair"></i>11A
+                  </div>
+                  <div class="seat-node" data-seat="12W (Window)">
+                    <i class="fa-solid fa-chair"></i>12W
+                  </div>
+                </div>
+              </div>
+
+              <!-- Row 4 -->
+              <div class="flex justify-between items-center">
+                <div class="flex gap-2">
+                  <div class="seat-node" data-seat="13W (Window)">
+                    <i class="fa-solid fa-chair"></i>13W
+                  </div>
+                  <div class="seat-node" data-seat="14A (Aisle)">
+                    <i class="fa-solid fa-chair"></i>14A
+                  </div>
+                </div>
+                <span class="text-[10px] text-slate-600 font-mono tracking-wider uppercase">ROW 4</span>
+                <div class="flex gap-2">
+                  <div class="seat-node" data-seat="15A (Aisle)">
+                    <i class="fa-solid fa-chair"></i>15A
+                  </div>
+                  <div class="seat-node" data-seat="16W (Window)">
+                    <i class="fa-solid fa-chair"></i>16W
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Seat Legend -->
+            <div class="flex flex-wrap items-center justify-center gap-4 text-[11px] text-slate-400 mt-4 pt-3 border-t border-slate-800">
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-3.5 rounded bg-slate-800 border border-slate-700 inline-block"></span>
+                <span>Available</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-3.5 rounded bg-amber-500 inline-block"></span>
+                <span class="text-white font-medium">Selected</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-3.5 rounded bg-rose-500/40 border border-rose-500 inline-block"></span>
+                <span>Ladies Priority</span>
+              </div>
+            </div>
+          </div>
+
+          <form id="bookingForm" class="mt-4 space-y-3.5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">
+                <i class="fa-solid fa-user text-amber-400"></i> Primary Passenger Name
+              </label>
+              <input type="text" id="custName" placeholder="Full name of traveler" required class="w-full bg-slate-950/80 border border-slate-700 focus:border-amber-400 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">
+                  <i class="fa-solid fa-phone text-amber-400"></i> Contact Phone
+                </label>
+                <input type="tel" id="custPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required class="w-full bg-slate-950/80 border border-slate-700 focus:border-amber-400 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">
+                  <i class="fa-solid fa-venus-mars text-amber-400"></i> Gender
+                </label>
+                <select id="custGender" required class="w-full bg-slate-950/80 border border-slate-700 focus:border-amber-400 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none">
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Family / Group">Family / Group</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Dynamic Pickup Drop select dropdowns -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1" id="pickupLabel">
+                  <i class="fa-solid fa-location-dot text-amber-400"></i> Boarding Point
+                </label>
+                <select id="custPickup" required class="w-full bg-slate-950/80 border border-slate-700 focus:border-amber-400 rounded-xl px-3 py-2.5 text-sm text-white outline-none">
+                  <!-- Populated via JS based on Direction -->
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1" id="dropLabel">
+                  <i class="fa-solid fa-flag-checkered text-amber-400"></i> Drop Point
+                </label>
+                <select id="custDrop" required class="w-full bg-slate-950/80 border border-slate-700 focus:border-amber-400 rounded-xl px-3 py-2.5 text-sm text-white outline-none">
+                  <!-- Populated via JS based on Direction -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Selected Seat summary card with price calculation -->
+            <div class="p-3 bg-slate-950 rounded-xl border border-amber-500/30 flex items-center justify-between text-xs">
+              <div>
+                <span class="text-slate-400 block text-[11px]">Selected Seat:</span>
+                <span id="seatSummary" class="text-amber-400 font-extrabold text-sm">1W (Window)</span>
+              </div>
+              <div class="text-right">
+                <span class="text-slate-400 block text-[11px]">Estimated Fare:</span>
+                <span class="text-emerald-400 font-extrabold text-base">₹450</span>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-extrabold text-sm md:text-base flex items-center justify-center gap-2.5 shadow-lg shadow-emerald-950 transition active:scale-98">
+              <i class="fa-brands fa-whatsapp text-xl"></i>
+              <span>Book Instantly on WhatsApp</span>
+            </button>
+            <p class="text-center text-[11px] text-slate-400">Official reservation via Trimurti Travels Pandharpur (+91 96236 56609)</p>
+          </form>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-slate-800 bg-slate-950/60 py-12 px-4 md:px-8" id="points">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <span class="text-amber-400 text-xs font-bold uppercase tracking-wider">Convenient Boarding Points</span>
+          <h2 class="font-heading text-2xl md:text-3xl font-extrabold text-white mt-1">Pandharpur & Pune Transit Network</h2>
+          <p class="text-slate-400 text-xs md:text-sm mt-2">Board directly near your home, hotel, or Bhakta Niwas in Pandharpur, with drop-offs across Pune's major hubs.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- Pandharpur Hubs -->
+          <div class="p-6 rounded-2xl bg-slate-900/70 border border-amber-500/20 shadow-lg">
+            <div class="flex items-center gap-3 pb-4 mb-4 border-b border-slate-800">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div>
+                <h3 class="font-heading text-lg font-bold text-white">Pandharpur Boarding Points</h3>
+                <p class="text-xs text-slate-400">Key temple areas & central bus stations</p>
+              </div>
+            </div>
+
+            <ul class="space-y-3 text-xs md:text-sm text-slate-300">
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <div>
+                  <strong class="text-white">Chouphala Office (Near Gajanan Maharaj Math):</strong> 3030/C Main departure terminal
+                </div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <div>
+                  <strong class="text-white">Shivaji Maharaj Chowk:</strong> Central city junction
+                </div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <div>
+                  <strong class="text-white">Vitthal Mandir Mahadwar:</strong> Near Bhakta Niwas gate for temple pilgrims
+                </div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <div>
+                  <strong class="text-white">Pandharpur Central ST Stand:</strong> Main entrance departure gate
+                </div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <div>
+                  <strong class="text-white">Isbavi Naka & Bypass:</strong> Solapur highway bypass junction
+                </div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <div>
+                  <strong class="text-white">Chandrabhaga Ghat Corner:</strong> Direct pilgrimage pickup spot
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Pune Hubs -->
+          <div class="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 shadow-lg">
+            <div class="flex items-center gap-3 pb-4 mb-4 border-b border-slate-800">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-map-pin"></i>
+              </div>
+              <div>
+                <h3 class="font-heading text-lg font-bold text-white">Pune Drop & Pickup Points</h3>
+                <p class="text-xs text-slate-400">Covers IT parks, railway stations, and bus depots</p>
+              </div>
+            </div>
+
+            <ul class="space-y-3 text-xs md:text-sm text-slate-300">
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <div>
+                  <strong class="text-white">Hadapsar:</strong> Gadital Chowk & Magarpatta / Mega Center
+                </div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <div>
+                  <strong class="text-white">Swargate:</strong> Main PMT / ST terminus entrance
+                </div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <div>
+                  <strong class="text-white">Katraj:</strong> Wonder City & Navale Bridge bypass
+                </div>
+              </li>
+              <li class="fa-solid fa-circle-check text-amber-400 mt-1 flex items-start gap-2.5">
+                <div>
+                  <strong class="text-white">Pune Railway Station:</strong> Platform 1 side circulating area
+                </div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <div>
+                  <strong class="text-white">Shivajinagar:</strong> ST Bus Stand area
+                </div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <div>
+                  <strong class="text-white">Wakad & Hinjewadi:</strong> Mumbai-Pune highway flyover (IT Park commuters)
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-14 px-4 md:px-8 border-t border-slate-800" id="reviews">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-8">
+          <div class="inline-flex items-center gap-1.5 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
+            <i class="fa-solid fa-shield-heart"></i> Genuine Feedback
+          </div>
+          <h2 class="font-heading text-2xl md:text-3xl font-extrabold text-white">Google Customer Reviews (4.1 ★)</h2>
+          <p class="text-slate-400 text-xs md:text-sm mt-1">See what pilgrims and frequent commuters say about Trimurti Travels</p>
+        </div>
+
+        <!-- Dynamic Testimonial Carousel -->
+        <div class="relative min-h-[220px]" id="testimonialContainer">
+          
+          <!-- Review 1 -->
+          <div class="testimonial-slide active p-6 md:p-8 rounded-2xl bg-slate-900/90 border border-amber-500/30 shadow-xl">
+            <div class="flex items-center justify-between mb-3">
+              <div class="text-amber-400 text-sm">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <span class="text-xs bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full font-semibold border border-emerald-500/30">
+                <i class="fa-brands fa-google text-xs"></i> Verified Google Review
+              </span>
+            </div>
+            <p class="text-base md:text-lg text-slate-100 font-medium italic leading-relaxed mb-4">
+              "Very good service completely enjoyed our trip we had a wonderful experience"
+            </p>
+            <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs">
+              <div>
+                <h4 class="text-amber-400 font-bold text-sm">Google Reviewer</h4>
+                <p class="text-slate-400">Pilgrim Trip to Pandharpur</p>
+              </div>
+              <span class="text-slate-500">Google Verified</span>
+            </div>
+          </div>
+
+          <!-- Review 2 -->
+          <div class="testimonial-slide p-6 md:p-8 rounded-2xl bg-slate-900/90 border border-amber-500/30 shadow-xl">
+            <div class="flex items-center justify-between mb-3">
+              <div class="text-amber-400 text-sm">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <span class="text-xs bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full font-semibold border border-emerald-500/30">
+                <i class="fa-brands fa-google text-xs"></i> Verified Google Review
+              </span>
+            </div>
+            <p class="text-base md:text-lg text-slate-100 font-medium italic leading-relaxed mb-4">
+              "Anna Chavan has given best travel service."
+            </p>
+            <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs">
+              <div>
+                <h4 class="text-amber-400 font-bold text-sm">Satisfied Passenger</h4>
+                <p class="text-slate-400">Pandharpur - Pune Daily Line</p>
+              </div>
+              <span class="text-slate-500">Google Verified</span>
+            </div>
+          </div>
+
+          <!-- Review 3 -->
+          <div class="testimonial-slide p-6 md:p-8 rounded-2xl bg-slate-900/90 border border-amber-500/30 shadow-xl">
+            <div class="flex items-center justify-between mb-3">
+              <div class="text-amber-400 text-sm">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <span class="text-xs bg-emerald-500/15 text-emerald-400 px-2.5 py-0.5 rounded-full font-semibold border border-emerald-500/30">
+                <i class="fa-brands fa-google text-xs"></i> Verified Google Review
+              </span>
+            </div>
+            <p class="text-base md:text-lg text-slate-100 font-medium italic leading-relaxed mb-4">
+              "Always punctual and clean vehicles for our family trips. Door pickup was on time and driving was very safe on the highway."
+            </p>
+            <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs">
+              <div>
+                <h4 class="text-amber-400 font-bold text-sm">Family Traveler</h4>
+                <p class="text-slate-400">Regular Pune Commuter</p>
+              </div>
+              <span class="text-slate-500">Google Verified</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <div class="flex items-center justify-center gap-2 mt-4">
+          <button type="button" class="carousel-dot w-6 h-2 rounded-full bg-amber-500 transition-all"></button>
+          <button type="button" class="carousel-dot w-2 h-2 rounded-full bg-slate-700 transition-all"></button>
+          <button type="button" class="carousel-dot w-2 h-2 rounded-full bg-slate-700 transition-all"></button>
+        </div>
+
+        <!-- Call to Action Google Link -->
+        <div class="text-center mt-6">
+          <a href="https://maps.google.com/?q=Trimurti+Travels+Chouphala+Pandharpur" target="_blank" class="inline-flex items-center gap-2 text-xs text-amber-400 hover:text-amber-300 font-semibold underline underline-offset-4">
+            <span>View all 72 Reviews on Google Maps</span>
+            <i class="fa-solid fa-external-link text-[10px]"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 px-4 md:px-8 bg-slate-950/80 border-t border-slate-800">
+      <div class="max-w-4xl mx-auto space-y-4">
+        <h2 class="font-heading text-xl md:text-2xl font-bold text-white text-center mb-6">Frequently Asked Questions</h2>
+        
+        <details class="group bg-slate-900/70 border border-slate-800 rounded-xl p-4 cursor-pointer">
+          <summary class="flex justify-between items-center text-sm md:text-base font-semibold text-white group-open:text-amber-400">
+            <span>How much time does the Pandharpur to Pune journey take?</span>
+            <i class="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+          </summary>
+          <p class="text-xs md:text-sm text-slate-300 mt-2 leading-relaxed">
+            The travel time typically ranges between 4.5 to 5.5 hours depending on traffic conditions and passenger drop points across Pune (Hadapsar, Swargate, Katraj, Wakad).
+          </p>
+        </details>
+
+        <details class="group bg-slate-900/70 border border-slate-800 rounded-xl p-4 cursor-pointer">
+          <summary class="flex justify-between items-center text-sm md:text-base font-semibold text-white group-open:text-amber-400">
+            <span>Is advance seat booking guaranteed?</span>
+            <i class="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+          </summary>
+          <p class="text-xs md:text-sm text-slate-300 mt-2 leading-relaxed">
+            Yes! Once you submit your booking details via our website, our WhatsApp dispatch team locks your selected seat and shares the bus driver number and exact boarding time instantly.
+          </p>
+        </details>
+
+        <details class="group bg-slate-900/70 border border-slate-800 rounded-xl p-4 cursor-pointer">
+          <summary class="flex justify-between items-center text-sm md:text-base font-semibold text-white group-open:text-amber-400">
+            <span>Where is the Trimurti Travels office in Pandharpur?</span>
+            <i class="fa-solid fa-chevron-down text-xs transition-transform group-open:rotate-180"></i>
+          </summary>
+          <p class="text-xs md:text-sm text-slate-300 mt-2 leading-relaxed">
+            Our main booking office is located at 3030/C, near Gajanan Maharaj Math, Shivaji Maharaj Chowk, Chouphala, Pandharpur, Maharashtra 413304. We are open 24 hours daily.
+          </p>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-slate-950 border-t border-amber-500/20 py-10 px-4 md:px-10 text-xs md:text-sm" id="contact">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Brand Info -->
+      <div class="space-y-3">
+        <div class="flex items-center gap-2 font-heading font-bold text-lg text-white">
+          <i class="fa-solid fa-bus text-amber-400"></i>
+          <span>TRIMURTI TRAVELS</span>
+        </div>
+        <p class="text-slate-400 leading-relaxed text-xs">
+          Premium daily express service connecting the holy shrine of Pandharpur with Pune. Special arrangement for pilgrims, families, and IT commuters.
+        </p>
+        <div class="text-amber-400 text-xs font-bold flex items-center gap-1.5">
+          <i class="fa-solid fa-award"></i> Rated 4.1 Stars on Google (72 Reviews)
+        </div>
+      </div>
+
+      <!-- Quick Office Coordinates -->
+      <div class="space-y-2.5">
+        <h4 class="font-heading font-bold text-white text-sm">Main Booking Office</h4>
+        <p class="text-slate-300 flex items-start gap-2">
+          <i class="fa-solid fa-location-dot text-amber-400 mt-0.5"></i>
+          <span>shivaji maharaj, 3030/c, near gajanan maharaj math, Chouphala, Pandharpur, Maharashtra 413304</span>
+        </p>
+        <p class="text-slate-300 flex items-center gap-2">
+          <i class="fa-solid fa-clock text-amber-400"></i>
+          <span>Open 24 Hours • 7 Days a Week</span>
+        </p>
+      </div>
+
+      <!-- Direct Phone & Assistance -->
+      <div class="space-y-3">
+        <h4 class="font-heading font-bold text-white text-sm">24x7 Helpline & Bookings</h4>
+        <div class="space-y-2">
+          <a href="tel:09623656609" class="block p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-400 text-white font-bold transition">
+            <i class="fa-solid fa-phone text-amber-400 mr-2"></i> 096236 56609
+          </a>
+          <a href="https://wa.me/919623656609?text=Hello%20Trimurti%20Travels,%20I%20want%20to%20inquire%20about%20travel%20tickets." target="_blank" class="block p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 font-bold hover:bg-emerald-900 transition">
+            <i class="fa-brands fa-whatsapp text-emerald-400 mr-2"></i> +91 96236 56609 (WhatsApp)
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto mt-8 pt-6 border-t border-slate-900 flex flex-wrap items-center justify-between text-slate-500 text-xs gap-3">
+      <p>© 2026 Trimurti Travels Pandharpur. All rights reserved.</p>
+      <p>Pandharpur ⇄ Pune Daily Direct Highway Express</p>
+    </div>
+  </footer>
+
+  <div class="fixed bottom-5 right-5 z-50 flex flex-col gap-3">
+    <!-- Call Quick Button -->
+    <a href="tel:09623656609" class="w-12 h-12 rounded-full bg-slate-900 border border-amber-400/50 text-amber-400 flex items-center justify-center text-lg shadow-xl hover:scale-110 transition active:scale-95" title="Call Trimurti Travels">
+      <i class="fa-solid fa-phone"></i>
+    </a>
+    <!-- WhatsApp Floating Action -->
+    <a href="https://wa.me/919623656609?text=Hello%20Trimurti%20Travels,%20I%20want%20to%20book%20a%20ticket%20for%20Pandharpur%20Pune." target="_blank" class="w-14 h-14 rounded-full bg-[#25d366] text-white flex items-center justify-center text-2xl shadow-2xl hover:scale-110 transition wa-pulse" title="WhatsApp Booking">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <script>
+    // Business Information
+    const TRIMURTI_PHONE = "919623656609";
+    const FARE_PER_SEAT = 450;
+
+    // Pickups and Drops by Direction
+    const STOPS_DATA = {
+      pndToPune: {
+        dirTitle: "Pandharpur → Pune",
+        pickups: [
+          "Trimurti Travels Office, Chouphala (Main)",
+          "Shivaji Maharaj Chowk",
+          "Near Gajanan Maharaj Math",
+          "Vitthal Mandir Mahadwar Chowk",
+          "Pandharpur Central ST Stand",
+          "Isbavi Naka Bypass",
+          "Chandrabhaga Ghat Corner"
+        ],
+        drops: [
+          "Hadapsar (Gadital / Mega Center)",
+          "Swargate PMT / ST Depot",
+          "Katraj (Wonder City / Bypass)",
+          "Pune Railway Station (Plat. 1 side)",
+          "Shivajinagar Bus Station",
+          "Viman Nagar / Chandan Nagar Bypass",
+          "Wakad / Hinjewadi Flyover"
+        ]
+      },
+      puneToPnd: {
+        dirTitle: "Pune → Pandharpur",
+        pickups: [
+          "Wakad / Hinjewadi Flyover Bridge",
+          "Shivajinagar Bus Station",
+          "Pune Railway Station",
+          "Swargate PMT / ST Depot",
+          "Katraj (Wonder City Bypass)",
+          "Hadapsar (Gadital / Mega Center)",
+          "Viman Nagar Bypass"
+        ],
+        drops: [
+          "Trimurti Travels Office, Chouphala (Main)",
+          "Shivaji Maharaj Chowk",
+          "Near Gajanan Maharaj Math",
+          "Vitthal Mandir Mahadwar Chowk",
+          "Pandharpur Central ST Stand",
+          "Isbavi Naka Bypass"
+        ]
+      }
+    };
+
+    let activeDirection = "pndToPune";
+    let selectedSeat = "1W (Window)";
+
+    // Elements
+    const btnPndToPune = document.getElementById("dirPndToPune");
+    const btnPuneToPnd = document.getElementById("dirPuneToPnd");
+    const pickupSelect = document.getElementById("custPickup");
+    const dropSelect = document.getElementById("custDrop");
+    const pickupLabel = document.getElementById("pickupLabel");
+    const dropLabel = document.getElementById("dropLabel");
+    const seatSummary = document.getElementById("seatSummary");
+    const seatNodes = document.querySelectorAll(".seat-node");
+    const dateInput = document.getElementById("journeyDate");
+
+    // Default Date to today
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    dateInput.value = `${yyyy}-${mm}-${dd}`;
+    dateInput.min = `${yyyy}-${mm}-${dd}`;
+
+    // Function to populate dropdowns based on direction
+    function updateRouteStops() {
+      const data = STOPS_DATA[activeDirection];
+      
+      pickupSelect.innerHTML = "";
+      dropSelect.innerHTML = "";
+
+      data.pickups.forEach((stop, index) => {
+        const opt = document.createElement("option");
+        opt.value = stop;
+        opt.textContent = stop;
+        if (index === 0) opt.selected = true;
+        pickupSelect.appendChild(opt);
+      });
+
+      data.drops.forEach((stop, index) => {
+        const opt = document.createElement("option");
+        opt.value = stop;
+        opt.textContent = stop;
+        if (index === 0) opt.selected = true;
+        dropSelect.appendChild(opt);
+      });
+
+      if (activeDirection === "pndToPune") {
+        pickupLabel.innerHTML = '<i class="fa-solid fa-location-dot text-amber-400"></i> Boarding in Pandharpur';
+        dropLabel.innerHTML = '<i class="fa-solid fa-flag-checkered text-amber-400"></i> Drop in Pune';
+      } else {
+        pickupLabel.innerHTML = '<i class="fa-solid fa-location-dot text-amber-400"></i> Boarding in Pune';
+        dropLabel.innerHTML = '<i class="fa-solid fa-flag-checkered text-amber-400"></i> Drop in Pandharpur';
+      }
+    }
+
+    // Direction Toggle Listeners
+    btnPndToPune.addEventListener("click", () => {
+      activeDirection = "pndToPune";
+      btnPndToPune.className = "flex-1 py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-md";
+      btnPuneToPnd.className = "flex-1 py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white";
+      updateRouteStops();
+    });
+
+    btnPuneToPnd.addEventListener("click", () => {
+      activeDirection = "puneToPnd";
+      btnPuneToPnd.className = "flex-1 py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-md";
+      btnPndToPune.className = "flex-1 py-2.5 px-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white";
+      updateRouteStops();
+    });
+
+    // Initialize dropdowns
+    updateRouteStops();
+
+    // Seat selection handler
+    seatNodes[0].classList.add("selected");
+
+    seatNodes.forEach(node => {
+      node.addEventListener("click", () => {
+        seatNodes.forEach(s => s.classList.remove("selected"));
+        node.classList.add("selected");
+        selectedSeat = node.getAttribute("data-seat");
+        seatSummary.textContent = selectedSeat;
+      });
+    });
+
+    // Testimonial Carousel Auto Rotation
+    const slides = document.querySelectorAll(".testimonial-slide");
+    const dots = document.querySelectorAll(".carousel-dot");
+    let currentSlide = 0;
+
+    function setSlide(index) {
+      slides[currentSlide].classList.remove("active");
+      dots[currentSlide].classList.remove("bg-amber-500", "w-6");
+      dots[currentSlide].classList.add("bg-slate-700", "w-2");
+
+      currentSlide = index;
+
+      slides[currentSlide].classList.add("active");
+      dots[currentSlide].classList.remove("bg-slate-700", "w-2");
+      dots[currentSlide].classList.add("bg-amber-500", "w-6");
+    }
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener("click", () => setSlide(idx));
+    });
+
+    setInterval(() => {
+      let next = (currentSlide + 1) % slides.length;
+      setSlide(next);
+    }, 4500);
+
+    // WhatsApp Dispatch Handler
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("custName").value.trim();
+      const phone = document.getElementById("custPhone").value.trim();
+      const gender = document.getElementById("custGender").value;
+      const date = document.getElementById("journeyDate").value;
+      const time = document.getElementById("timeSlot").value;
+      const pickup = document.getElementById("custPickup").value;
+      const drop = document.getElementById("custDrop").value;
+      const routeText = STOPS_DATA[activeDirection].dirTitle;
+
+      const message = 
+`*TRIMURTI TRAVELS - NEW TICKET BOOKING INQUIRY*
+----------------------------------------
+*Route:* ${routeText}
+*Date:* ${date}
+*Time Slot:* ${time}
+----------------------------------------
+*Passenger Name:* ${name}
+*Phone:* ${phone}
+*Gender:* ${gender}
+*Seat Selected:* ${selectedSeat}
+*Pickup Point:* ${pickup}
+*Drop Point:* ${drop}
+*Fare:* ₹${FARE_PER_SEAT}
+----------------------------------------
+Please verify availability and confirm my seat allocation.`;
+
+      const encoded = encodeURIComponent(message);
+      window.open(`https://wa.me/${TRIMURTI_PHONE}?text=${encoded}`, "_blank");
+    });
+  </script>
+</body>
+</html>
