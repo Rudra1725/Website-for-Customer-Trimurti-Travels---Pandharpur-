@@ -1,9 +1,8 @@
-Here is the comprehensive README.md for the Trimurti Travels web application, detailing the project overview, features, setup instructions, customization guide, and deployment steps:
 
-🚌 Trimurti Travels – Booking & Portal Web App
+# 🚌 Trimurti Travels – Booking & Portal Web App
 A modern, mobile-responsive single-page web portal designed for Trimurti Travels (Pandharpur – Pune Daily Express). Featuring a royal amber & obsidian dark UI, interactive 16-seater bus seat selector, dynamic two-way route switcher, Google review highlight cards, and instant one-click WhatsApp reservation dispatch.
 
-🌟 Key Features
+# 🌟 Key Features
 Warm Royal Theme: Tailored amber/saffron and deep obsidian aesthetic (#f59e0b, #070a12) fitting for Maharashtra highway travel and pilgrim routes.
 
 Interactive Bus Seat Grid:
